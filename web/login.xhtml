@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <title>APG WebShop - Login</title>
+    </h:head>
+    <h:body>
+        <div id="login-panel">
+            <div id="gnome-login">
+                <img src="resources/images/gnome-basic.png" alt="Gnome login page"></img>
+            </div>
+            <div id="form-login">
+                <h1> Welcome ! </h1>
+
+                <h:form>
+                    <div class="message-panel">
+                        <h:messages errorClass="error-message" 
+                                    infoClass="info-message" 
+                                    layout="table" 
+                                    globalOnly="true" />
+                    </div>
+
+                    <p>
+                        <h:message for="username" errorClass="error-message"></h:message>
+                        <br></br>
+                        <h:outputLabel value="Username: " for="username"  styleClass= "textinput" />
+                        <h:inputText id="username" value="#{loginManager.username}"
+                                     required="true"
+                                     requiredMessage="Username must not be empty"
+                                     styleClass="input-text" >
+                        </h:inputText>
+                    </p>
+                    <p>
+                        <h:message for="password" errorClass="error-message" ></h:message>
+                        <br></br>
+                        <h:outputLabel value="Password: " for="password" styleClass= "textinput"/>
+                        <h:inputSecret id="password" value="#{loginManager.password}"
+                                       required="true"
+                                       requiredMessage="Password must not be empty"
+                                       styleClass="input-text">
+                        </h:inputSecret>
+                    </p>
+                    <p>
+                        <h:commandButton action="#{loginManager.doLoginCustomer}"
+                                         value="Login" styleClass="button green-background"></h:commandButton>
+                        <h:commandButton action="#{loginManager.doLoginAdmin}"
+                                         value="Admin" styleClass="button green-background"></h:commandButton>
+                        <h:commandButton action="#{loginManager.doRegistration}"
+                                         value="Register" styleClass="button green-background"></h:commandButton>
+                    </p>
+
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>
+

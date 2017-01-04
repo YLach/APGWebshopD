@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <body>
+        <ui:composition>
+            <div >
+                <h:form>    
+                    <p:toolbar>
+                        <f:facet name="left">
+                            <h:outputText value="Connected as: #{loginManager.username}"
+                                          styleClass="name-header">
+                            </h:outputText>
+
+                            <span class="ui-separator">
+                                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                            </span>
+
+                            <h:commandButton styleClass="button" action="inventory" value="Inventory">
+                            </h:commandButton>
+
+                            <h:commandButton styleClass="button" 
+                                             action="basket" 
+                                             value="My basket"
+                                             rendered="#{loginManager.loggedIn}">
+                            </h:commandButton>
+                            <h:commandButton styleClass="button" 
+                                             action="users" 
+                                             value="Users"
+                                             rendered="#{loginManager.admin}">
+                            </h:commandButton>
+                        </f:facet>
+
+
+                        <f:facet name="right">
+                            <h:commandButton  styleClass="button" 
+                                              action="#{loginManager.doLogout}" 
+                                              value="Logout">
+                            </h:commandButton>
+                        </f:facet>
+
+                    </p:toolbar>
+                </h:form>
+            </div>
+        </ui:composition>
+    </body>
+</html>

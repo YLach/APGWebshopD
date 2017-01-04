@@ -1,0 +1,87 @@
+
+#page {
+    width: 75%;
+    min-height: 100%;
+    background-color: white;
+    margin: 20px auto; 
+    border-radius: 15px;
+    position:relative;
+}
+
+#content {
+    min-height: 100%;
+    padding: 15px;
+}
+
+.name-header {
+    color: white;
+    font-weight: bold;
+    font-size: small;
+}
+
+#footer-content {
+    text-align: center;
+    color: white;
+    background-color: #b75364;
+    height: 60px;
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    margin-bottom: -25px;
+}
+
+
+#login-panel {
+    background-color: white;
+    border-radius: 15px;
+    width: 50%;
+    margin: 0 auto;
+    min-height: 350px;
+    margin-top: 10%;
+    padding: 10px;
+}
+
+#gnome-login {
+   display: inline-block; 
+   vertical-align:middle;
+   min-width: 30%;
+   text-align: center;
+}
+
+#form-login {
+   display: inline-block; 
+   vertical-align:middle;
+   text-align: center;
+   width: 65%; 
+}
+
+#login-panel form {
+    border:solid black 1px; 
+    padding: 10px;
+    min-width: 50%; 
+    margin: 10px;
+}
+
+#login-panel form .textinput{
+    font-size: large;
+    color:#797982;
+}
+
+#login-panel form .input-text {
+    padding: 12px 8px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid grey;
+    border-radius:8px;
+}
+
+#gnome-login img {
+   width: 150px;
+}
+
+
+
+
+
+
+

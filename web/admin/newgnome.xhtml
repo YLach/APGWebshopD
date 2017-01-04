@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>APG WebShop - New Gnome</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/template/commonLayout.xhtml">
+            <ui:define name="content">
+                <h:form>           
+                    <p:panel id="panel" header="New gnome" style="margin-bottom:10px;">
+                        <p:messages id="messages" />
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="type" value="Name: "></p:outputLabel>
+                            <p:inputText id="type" value="#{newGnomeManager.type}"
+                                         required="true"
+                                         requiredMessage="Please enter the type">
+                            </p:inputText>
+                            <p:message for="type" ></p:message>
+
+                            <p:outputLabel for="price" value="Price: "></p:outputLabel>
+                            <p:inputText id="price" value="#{newGnomeManager.price}"
+                                         required="true"
+                                         requiredMessage="Please enter the price"
+                                         converterMessage="Please provide a float"
+                                         converter="javax.faces.Float"
+                                         validatorMessage="Invalid price">
+                            </p:inputText>
+                            <p:message for="price" ></p:message>
+
+                            <p:outputLabel for="quantity" value="Quantity: "></p:outputLabel>
+                            <p:inputText id="quantity" value="#{newGnomeManager.quantity}"
+                                         required="true"
+                                         requiredMessage="Please enter the quantity"
+                                         converterMessage="Please provide an integer"
+                                         converter="javax.faces.Integer"
+                                         validatorMessage="Invalid quantity">
+                            </p:inputText>
+                            <p:message for="price" ></p:message>
+                        </h:panelGrid>
+
+                        <br></br>
+                        <h:commandButton action="#{newGnomeManager.addNewGnomeToInventory}" 
+                                         value="Add">
+                        </h:commandButton>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -1,0 +1,83 @@
+html {
+    height:100%; /* needed for container min-height */
+    width: 100%;
+} 
+
+body {
+    margin:0;
+    padding:0;
+    /* background-color: #7abecc; */
+    background-color: #FAEBD7;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000; 
+    font-size: small;
+    height: 100%;
+}
+
+h1 {
+    font-size:  xx-large;
+    font-weight: bold;
+    margin: 20px;
+    padding: 0px;
+    color: #D20005;
+}
+
+label {
+    font-weight: bold;
+}
+
+.error-message {
+    font-weight: bold;
+    color: red;
+}
+
+.info-message {
+    font-weight: bold;
+    color: #7abecc;
+}
+
+.message-panel table {
+    margin: 0 auto;
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: medium;
+    cursor: pointer;
+    margin: 2px;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.button-tab {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    width: 85%;
+}
+
+.green-background {
+    background-color: #4CAF50;
+}
+
+.red-background {
+    background-color: #D20005;
+}
+
+.text-centered {
+    text-align: center;
+}
+
+
+a:link, a:visited {
+  color: #045491;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+a:link:hover, a:visited:hover  {
+  color: #045491;
+  font-weight : bold;
+  text-decoration : underline;
+}
