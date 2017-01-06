@@ -309,6 +309,59 @@ public class WebshopController {
             }
         }
     }
+    
+    public void updateItemInShoppingBasket(String buyerUsername,GnomeDTO gnome,
+            int newQuantity) throws InvalidGnomeQuantityException,
+            InsufficientGnomeQuantityException {
+        // Valid quantity ?
+        if (newQuantity < 0) {
+            throw new InvalidGnomeQuantityException();
+        }
+        
+        Customer customer = em.find(Customer.class, buyerUsername);
+        if (customer != null) {
+            //Remove from inventory
+            Gnome gnomeToAdd = em.find(Gnome.class, gnome.getType());
+            if (gnomeToAdd != null) {
+                int oldQuantity = customer.getShoppingBasket().get(gnome);
+                int diffToUpdate = newQuantity - oldQuantity;
+                
+                if (diffToUpdate >= 0) {
+                    //Check if enough items remaining in the inventory
+                    if (gnomeToAdd.getQuantity() < diffToUpdate) {
+                        //Not okay
+                        throw new InsufficientGnomeQuantityException(gnome.getType(),
+                                gnome.getQuantity());
+                    }
+                    
+                    //Add new units
+                    try {
+                        gnomeToAdd.decreaseQuantityInInventory(diffToUpdate);
+                        gnomeToAdd.increaseQuantityInBaskets(diffToUpdate);
+                        em.merge(gnomeToAdd);
+                        
+                        customer.addGnomeToBasket(gnomeToAdd, diffToUpdate);
+                        em.merge(customer);
+                    } catch (Exception ex) {
+                        return;
+                    }
+                } else {
+                    diffToUpdate = -diffToUpdate;
+                    //Remove units from basket
+                    try {
+                        gnomeToAdd.increaseQuantityInInventory(diffToUpdate);
+                        gnomeToAdd.decreaseQuantityInBaskets(diffToUpdate);
+                        em.merge(gnomeToAdd);
+                        
+                        customer.removeGnomeToBasket(gnomeToAdd, diffToUpdate);
+                        em.merge(customer);
+                    } catch (Exception ex) {
+                        return;
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Returns the shopping basket of the specified user.

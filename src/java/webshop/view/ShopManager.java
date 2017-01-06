@@ -8,12 +8,10 @@ package webshop.view;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -39,7 +37,10 @@ public class ShopManager implements Serializable {
     private LoginManager loginManager;
 
     // Gnomes in the current user's shopping basket
-    private List<Entry<GnomeDTO, Integer>> basketEntries;
+    //private List<Entry<GnomeDTO, Integer>> basketEntries;
+    private Map<GnomeDTO, Integer> basketEntries;
+    
+    
     // Quantity of each gnome to add to the shopping basket
     private Map<GnomeDTO, Integer> quantityToBuy = new LinkedHashMap<>();
 
@@ -49,6 +50,18 @@ public class ShopManager implements Serializable {
     public ShopManager() {
     }
 
+    /**
+     * Initializes the ShopManager fields : shopping basket and quantity to add
+     * to the basket.
+     */
+    @PostConstruct
+    public void init() {
+        Map<GnomeDTO, Integer> basket
+            = webshopController.getShoppingBasket(loginManager.getUsername());
+        //this.basketEntries = new ArrayList<>(basket.entrySet());
+        basketEntries = basket;
+    }
+    
     /**
      * Initializes the quantity of each gnome to add in the user's basket.
      *
@@ -71,6 +84,8 @@ public class ShopManager implements Serializable {
         try {
             webshopController.addItemToShoppingBasket(loginManager.getUsername(),
                     gnome, quantityToBuy.get(gnome));
+            //Update the basket entries            
+            basketEntries = webshopController.getShoppingBasket(loginManager.getUsername());
             // Message success
             String msgSuccess = quantityToBuy.get(gnome)
                     + " units of gnomes " + gnome.getType()
@@ -79,7 +94,7 @@ public class ShopManager implements Serializable {
                     msgSuccess, null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
             FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-
+            
             return Navigation.redirectToInventory();
         } catch (InvalidGnomeQuantityException | InsufficientGnomeQuantityException ex) {
             String msgError = " Invalid quantity for gnome " + gnome.getType();
@@ -91,12 +106,45 @@ public class ShopManager implements Serializable {
     }
 
     /**
+     * Updates the quantity of the specified gnome in the shopping basket 
+     * @param gnome The gnome to update in the shopping basket
+     * @return The next web page to be displayed.
+     */
+    public String updateGnomeInBasket(GnomeDTO gnome) {
+        try {
+            webshopController.updateItemInShoppingBasket(loginManager.getUsername(),
+                    gnome, basketEntries.get(gnome));
+            //Update the basket entries  
+            basketEntries = webshopController.getShoppingBasket(loginManager.getUsername());
+                
+            // Message success
+            String msgSuccess = "Gnome " + gnome.getType()
+                    + " updated !";
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    msgSuccess, null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+            return Navigation.redirectToBasket();
+        } catch (InvalidGnomeQuantityException | InsufficientGnomeQuantityException ex) {
+            String msgError = " Invalid quantity for gnome " + gnome.getType();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    msgError, null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return Navigation.toBasket();
+        }
+    }
+    
+    
+    /**
      * Simulates the purchase of the user's shopping basket.
      *
      * @return The next web page to be displayed.
      */
     public String buyBasket() {
         webshopController.buyShoppingBasket(loginManager.getUsername());
+        //Update the basket entries  
+        basketEntries = webshopController.getShoppingBasket(loginManager.getUsername());
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "The shopping basket has been bought !", null);
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -115,11 +163,7 @@ public class ShopManager implements Serializable {
         this.quantityToBuy = quantityToBuy;
     }
 
-    // TODO TO modify
-    public List<Entry<GnomeDTO, Integer>> getBasketEntries() {
-        Map<GnomeDTO, Integer> basket
-                = webshopController.getShoppingBasket(loginManager.getUsername());
-        this.basketEntries = new ArrayList<>(basket.entrySet());
+    public Map<GnomeDTO, Integer> getBasketEntries() {
         return this.basketEntries;
     }
 

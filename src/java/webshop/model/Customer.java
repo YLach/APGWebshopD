@@ -70,6 +70,14 @@ public class Customer extends AbstractUser implements CustomerDTO {
         shoppingBasket.put(gnome, quantityInBasket);
     }
 
+    public void removeGnomeToBasket(Gnome gnome, int quantity) {
+        int quantityInBasket = quantity;
+        if (shoppingBasket.containsKey(gnome)) {
+            quantityInBasket = shoppingBasket.get(gnome) - quantity;
+        }
+        shoppingBasket.put(gnome, quantityInBasket);
+    }
+    
     /**
      * Clears the customer's shopping basket.
      */

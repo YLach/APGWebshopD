@@ -21,7 +21,7 @@
                     </div>
 
                     <p:dataTable 
-                        value="#{shopManager.basketEntries}" 
+                        value="#{shopManager.basketEntries.entrySet()}" 
                         var="entry"
                         styleClass="order-table">
                         <p:column headerText="Name">
@@ -33,14 +33,37 @@
                         </p:column>
 
                         <p:column headerText="Quantity">
-                            <h:outputText value="#{entry.value}" />
+                            <h:inputText id="quantity"
+                                         value="#{shopManager.basketEntries[entry.key]}" 
+                                         converterMessage="Please provide an integer"
+                                         required="true"
+                                         requiredMessage="Please enter a quantity" 
+                                         converter="javax.faces.Integer"
+                                         validatorMessage="Invalid quantity"
+                                         >
+                            </h:inputText>
                         </p:column>
 
+                        <p:column headerText="Quantity in inventory">
+                            <h:outputText value="#{entry.key.quantity}" />
+                        </p:column>
+                        
+                        <p:column headerText="Update quantity" class="text-centered">
+                            <h:commandButton id="idadd" 
+                                             value="Update" 
+                                             action="#{shopManager.updateGnomeInBasket(entry.key)}"
+                                             styleClass="button-tab"
+                                             >
+                            </h:commandButton>
+                        </p:column>
+                        
                         <p:column>
                             <h:message for="quantity"></h:message>
                         </p:column>
+                        
                     </p:dataTable>
 
+                    
                     <br></br>
                     <h:commandButton action="#{shopManager.buyBasket}" 
                                      value="Buy Basket" 
