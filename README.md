@@ -1,6 +1,7 @@
 # APGWebShop
 
-JavaEE Web Application : a webshop for gnomes composed of two interfaces (admin | customer). 
+JavaEE Web Application : a webshop for gnomes composed of two interfaces (admin | customer).
+
 Main features : inventory management, shopping cart management, users management.
 
 Here is the list of programming technologies used for implementation:
